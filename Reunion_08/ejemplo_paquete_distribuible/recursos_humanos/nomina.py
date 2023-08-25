@@ -12,6 +12,6 @@ class Nomina:
         for empleado in self._lista_empleados:
             if isinstance(empleado, Empleado):
                 print(f"{empleado.nombre_completo} \t ${empleado.salario}")
-                # ROMPE ENCAPSULAMIENTO print(f"{empleado._Empleado__nombre} \t ${empleado.salario}")
+                # ROMPES EL ENCAPSULAMIENTO print(f"{empleado._Empleado__nombre} \t ${empleado.salario}")
             else:
                 print(f"En la nómina hay un no empleado: {empleado}")

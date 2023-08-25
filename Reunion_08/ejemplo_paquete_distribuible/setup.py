@@ -1,7 +1,7 @@
 from setuptools import setup
 setup(
     name="recursos_humanos",
-    version="0.2",
+    version="0.3",
     description="Paquete de ejemplo de empleados y nómina",
     author="Codo a Codo",
     author_email="io.codoacodo@bue.edu.ar",

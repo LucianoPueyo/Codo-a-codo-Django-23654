@@ -1,4 +1,5 @@
 from recursos_humanos.nomina import Nomina
+from recursos_humanos.personal.empleados import EmpleadoFullTime, EmpleadoPorHora
 
 
 nomina_empleados = Nomina()
