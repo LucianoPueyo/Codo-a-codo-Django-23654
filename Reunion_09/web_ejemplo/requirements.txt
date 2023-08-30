@@ -1,0 +1,6 @@
+asgiref==3.7.2
+colorama==0.4.6
+Django==3.2
+pytz==2023.3
+sqlparse==0.4.4
+typing-extensions==4.7.1
