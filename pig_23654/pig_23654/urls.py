@@ -17,5 +17,5 @@ Including another URLconf
 from django.urls import path, include
 
 urlpatterns = [
-    path('portal/', include("portal.urls")),
+    path('', include("portal.urls")),
 ]
