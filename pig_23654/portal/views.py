@@ -1,7 +1,8 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.template import loader
 from datetime import datetime
 from django.shortcuts import render
+from portal.forms import ContactoForm
 
 # Create your views here.
 
@@ -13,13 +14,24 @@ def index(request):
     # respuesta = HttpResponse(template_renderizado)
     # return respuesta
 
-    respuesta = None
-    if request.method == 'POST':
-        nombre = request.POST["nombre"]
-        consulta = request.POST["consulta"]
-        respuesta = f"Gracias <b> {nombre} </b> por tu consulta"
+    formulario_contacto = None
+    if request.method == 'GET':
+        formulario_contacto = ContactoForm()
+        respuesta = ""
+    elif request.method == 'POST':
+        formulario_contacto = ContactoForm(request.POST)
+        respuesta = f"Gracias por tu consulta"
+        # Acá hago todo lo que impacta en el sistema (envio de email, grabar datos, etc)
+    else:
+        return HttpResponseBadRequest("Mandaste cualquiera")
 
-    return render(request, "portal\index.html", {"ahora": datetime.now, "respuesta": respuesta})
+    contexto = {
+        'ahora':  datetime.now,
+        'respuesta': respuesta,
+        'mi_formulario':  formulario_contacto
+    }
+
+    return render(request, "portal\index.html", contexto)
 
 
 def cursos(request, inicio):

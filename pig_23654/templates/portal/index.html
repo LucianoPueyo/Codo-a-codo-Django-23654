@@ -77,16 +77,25 @@
             {% endif %}
             <form id="contact-form" name="contact-form" action="{% url 'indice' %}" method="POST">
                 {% csrf_token %}
+                {% comment %} {{ mi_formulario.as_p }} {% endcomment %}
+                {% comment %} <ul>
+                    {{ mi_formulario.as_ul }}
+                </ul> {% endcomment %}
+                {% comment %} <table>
+                    {{ mi_formulario.as_table }}
+                </table> {% endcomment %}
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="md-form mb-0">
-                            <label for="">Nombre</label>
-                            <input name="nombre" type="text" required>
-                            <label for="">Consulta</label>
-                            <input name="consulta" type="text" cols="40" rows="10" required>
+                    {% for campo in mi_formulario %}
+                        <!--Grid column-->
+                        <div class="mb-3">
+                            <label for="name" class="form-label">{{ campo.label }} </label>
+                            {{campo}}
                         </div>
-                    </div>
+                        <!--Grid column-->
+                    {% endfor %}
                 </div>
+
+
                 <div class="text-center text-md-left mt-3">
                     <button class="btn btn-primary" type="submit">Enviar</button>
                 </div>
