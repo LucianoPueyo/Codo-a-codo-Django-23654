@@ -1,3 +1,6 @@
+from django.contrib import messages
+from django.conf import settings
+from django.core.mail import send_mail
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.template import loader
 from datetime import datetime
@@ -17,17 +20,29 @@ def index(request):
     formulario_contacto = None
     if request.method == 'GET':
         formulario_contacto = ContactoForm()
-        respuesta = ""
     elif request.method == 'POST':
         formulario_contacto = ContactoForm(request.POST)
-        respuesta = f"Gracias por tu consulta"
-        # Acá hago todo lo que impacta en el sistema (envio de email, grabar datos, etc)
+        # # Acá hago todo lo que impacta en el sistema (envio de email, grabar datos, etc)
+        if formulario_contacto.is_valid():
+            messages.success(request, 'Hemos recibido tus datos')
+            mensaje = f"De : {formulario_contacto.cleaned_data['nombre']} <{formulario_contacto.cleaned_data['email']}>\n Asunto: {formulario_contacto.cleaned_data['asunto']}\n Mensaje: {formulario_contacto.cleaned_data['mensaje']}"
+            mensaje_html = f"""
+                <p>De: {formulario_contacto.cleaned_data['nombre']} <a href="mailto:{formulario_contacto.cleaned_data['email']}">{formulario_contacto.cleaned_data['email']}</a></p>
+                <p>Asunto:  {formulario_contacto.cleaned_data['asunto']}</p>
+                <p>Mensaje: {formulario_contacto.cleaned_data['mensaje']}</p>
+            """
+            asunto = "CONSULTA DESDE LA PAGINA - " + \
+                formulario_contacto.cleaned_data['asunto']
+            send_mail(asunto, mensaje, settings.EMAIL_HOST_USER, [
+                      settings.RECIPIENT_ADDRESS], fail_silently=False, html_message=mensaje_html)
+        # else:
+        #     messages.error(
+        #         request, 'Por favor revisa los errores en el formulario')
     else:
         return HttpResponseBadRequest("Mandaste cualquiera")
 
     contexto = {
         'ahora':  datetime.now,
-        'respuesta': respuesta,
         'mi_formulario':  formulario_contacto
     }
 
