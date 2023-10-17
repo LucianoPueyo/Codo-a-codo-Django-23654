@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from django.db import models
 from django.db.models.query import QuerySet
 
@@ -58,7 +59,7 @@ class Docente(Persona):
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=50, verbose_name='Nombre')
-    baja = models.BooleanField(default=0)
+    baja = models.BooleanField(default=False)
 
     def __str__(self):
         return self.nombre

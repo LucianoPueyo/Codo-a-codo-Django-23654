@@ -18,4 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('', include("portal.urls")),
+    path('administracion/', include("administracion.urls"))
 ]
