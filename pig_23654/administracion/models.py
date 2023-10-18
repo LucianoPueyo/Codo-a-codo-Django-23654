@@ -72,6 +72,12 @@ class Categoria(models.Model):
         self.baja = False
         super().save()
 
+    def save(self):
+        if self.nombre == "Django":
+            raise ValueError("QUE HACES??")
+        else:
+            return super().save()
+
 
 class Curso(models.Model):
     nombre = models.CharField(max_length=100, verbose_name='Nombre')

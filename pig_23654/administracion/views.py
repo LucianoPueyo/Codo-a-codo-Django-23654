@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from administracion.models import Categoria
 from administracion.forms import CategoriaForm
+from django.views.generic import ListView
+
 
 # Create your views here.
 def index_administracion(request):
@@ -8,14 +10,24 @@ def index_administracion(request):
     return render(request, 'administracion/index.html', {'variable': variable})
 
 
-# Create your views here.
-def categorias_index(request):
-    # queryset
-    categorias = Categoria.objects.filter(baja=False)
 
-    if 'nombre' in request.GET:
-        categorias = categorias.filter(nombre__contains=request.GET['nombre'])
-    return render(request, 'administracion/categorias/index.html', {'categorias': categorias})
+class CategoriaListView(ListView):
+    # template_name = "administracion/categorias/index.html"
+    model = Categoria
+
+
+
+# # Create your views here.
+# def categorias_index(request):
+#     # queryset
+#     categorias = Categoria.objects.filter(baja=False)
+
+#     if 'nombre' in request.GET:
+#         categorias = categorias.filter(nombre__contains=request.GET['nombre'])
+#     return render(request, 'administracion/categorias/index.html', {'categorias': categorias})
+
+
+
 
 
 def categorias_nuevo(request):
@@ -25,9 +37,9 @@ def categorias_nuevo(request):
             nombre_cleaned = formulario.cleaned_data['nombre']
             nueva_categoria = Categoria(nombre=nombre_cleaned)
             try:
-                nueva_categoria.save()
+                que_retorna = nueva_categoria.save()
             except ValueError as ve:
-                formulario.add_error(str(ve))
+                formulario.add_error('nombre', str(ve))
             else:
                 return redirect('categorias_index')
     else:
