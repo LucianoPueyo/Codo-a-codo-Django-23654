@@ -1,12 +1,12 @@
 {% extends '../base.html' %}
 
-{% block titulo %}Categorias cursos{% endblock%}
+{% block titulo %}Cursos{% endblock%}
 
 {% block contenido %}
-<h1 class="mt-4">Categorias cursos</h1>
+<h1 class="mt-4">Cursos</h1>
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a href="{% url 'inicio_administracion' %}">Administracion</a></li>
-    <li class="breadcrumb-item active">Categorias</li>
+    <li class="breadcrumb-item active">Cursos</li>
 </ol>
 
 <div class="card">
@@ -27,6 +27,15 @@
                               class="form-control">
                     </div>
                 </div>
+                <div class="col-3">
+                    <div class="md-form mb-0">
+                        <label for="name" class="">Categoria</label>
+                        
+                        <select name="categoria" id="categoria" class="form-control">
+                            <option value="">Seleccione</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="col-3 ">
                     <button class="btn btn-primary mt-4">Buscar</button>
                 </div>
@@ -37,33 +46,48 @@
 <br>
 <div class="card">
     <div class="card-body">
-        <a name="" id="" class="btn btn-success" href="{% url 'categorias_nuevo' %}" role="button"> <i class="fa-solid fa-circle-plus"></i> Nuevo</a>
+        <a name="" id="" class="btn btn-success" href="{% url 'cursos_nuevo' %}" role="button"> <i class="fa-solid fa-circle-plus"></i> Nuevo</a>
+        <div class='row mt-2'>
+            <div class='col-12'>
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
         <!-- bs5-table-defaul -->
         <table class="table">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Nombre</th>
+                    <th>Categoria</th>
+                    <th>Portada</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                {% for categoria in categorias %}
+                {% for curso in cursos %}
                     <tr>
-                        <td>{{categoria.id}}</td>
-                        <td>{{categoria.nombre}}</td>
+                        <td>{{curso.id}}</td>
+                        <td>{{curso.nombre}}</td>
+                        <td>{{curso.categoria.nombre}}</td>
                         <td>
-                            <a href="{% url 'categorias_editar' categoria.id %}" title="Editar" class="btn btn-warning"><i class="fas fa-pencil"></i></a>
-                            <a href="{% url 'categorias_eliminar' categoria.id %}" title="Eliminar" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            <img src="{{curso.portada.url}}" alt="{{curso.nombre}}" width="20%">
+                        </td>
+                        <td>
+                            <a href="{% url 'cursos_editar' curso.id %}" title="Editar" class="btn btn-warning"><i class="fas fa-pencil"></i></a>
+                            <a href="{% url 'cursos_eliminar' curso.id %}" title="Eliminar" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
-
             </tbody>
         </table>
-        {% comment %} <div class="row">
+        <div class="row">
             <div class="col-12">
-                <nav aria-label="Page navigation example">
+                
+                {% comment %} <nav aria-label="Page navigation example">
                     <ul class="pagination">
                       <li class="page-item"><a class="page-link" href="#"><<</a></li>
                       <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -71,9 +95,9 @@
                       <li class="page-item"><a class="page-link" href="#">3</a></li>
                       <li class="page-item"><a class="page-link" href="#">>></a></li>
                     </ul>
-                  </nav>
+                  </nav> {% endcomment %}
             </div>
-        </div> {% endcomment %}
+        </div>
     </div>
     <div class="card-footer text-muted">
         Footer
