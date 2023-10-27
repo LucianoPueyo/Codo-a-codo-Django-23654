@@ -31,7 +31,7 @@
                     {% for curso in cursos %}
                         <div class="col">
                             <div class="card shadow-sm">
-                                <img class="bd-placeholder-img card-img-top" width="100%" src="https://picsum.photos/id/{{ forloop.counter|add:500 }}/300/200" alt="{{curso.nombre}}"
+                                <img class="bd-placeholder-img card-img-top" width="100%" src="{{curso.portada.url}}" alt="{{curso.nombre}}"
                                 width="20%">
                                 <div class="card-body">
                                     <h3>{{curso.nombre}}</h3>

@@ -114,6 +114,8 @@ class Curso(models.Model):
         self.portada.storage.delete(self.portada.name)  # borrado fisico
         super().delete()
 
+    
+
 
 class Comision(models.Model):
     nombre = models.CharField(max_length=100, verbose_name="Nombre")
@@ -121,6 +123,9 @@ class Comision(models.Model):
     link_meet = models.URLField(max_length=100, verbose_name='Link de Meet', null=True, default=None)
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)  # relacion mucho a uno
     estudiantes = models.ManyToManyField(Estudiante, through='Inscripcion')
+
+    class Meta:
+        verbose_name_plural = "Comisiones"
 
     def __str__(self):
         return f"{self.curso} - {self.nombre}"

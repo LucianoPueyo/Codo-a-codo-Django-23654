@@ -6,6 +6,7 @@ from django.template import loader
 from datetime import datetime
 from django.shortcuts import render
 from portal.forms import ContactoForm
+from administracion.models import Curso
 
 # Create your views here.
 
@@ -41,9 +42,12 @@ def index(request):
     else:
         return HttpResponseBadRequest("Mandaste cualquiera")
 
+    cursos = Curso.objects.all()
+
     contexto = {
         'ahora':  datetime.now,
-        'mi_formulario':  formulario_contacto
+        'mi_formulario':  formulario_contacto,
+        'cursos': cursos
     }
 
     return render(request, "portal\index.html", contexto)
