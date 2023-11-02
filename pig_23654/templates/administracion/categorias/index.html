@@ -1,5 +1,5 @@
 {% extends '../base.html' %}
-
+{% load i18n %}
 {% block titulo %}Categorias cursos{% endblock%}
 
 {% block contenido %}
@@ -11,7 +11,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h3>Filtros</h3>
+        <h3>{% translate  "Filtros" %}</h3>
     </div>
     <div class="card-body">
         <form action="">

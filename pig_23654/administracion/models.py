@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models.query import QuerySet
 from django.urls import reverse_lazy
 from django.utils.text import slugify
-
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 # Solución con Herencia de Múltiples tablas
@@ -22,7 +22,7 @@ class EstudianteManager(models.Manager):
         return self.count()
 
     def get_queryset(self):
-        return super().get_queryset().filter(baja=False)
+        return super().get_queryset().filter()
 
 
 class Estudiante(Persona):
@@ -210,3 +210,11 @@ class Proyecto(models.Model):
 
     def obtener_modificacion_url(self):
         return reverse_lazy('proyecto_modificacion', args=[self.id])
+
+
+class Lenguaje(models.Model):
+    nombre = models.CharField(verbose_name="Nombre:", max_length=100)
+    logo = models.ImageField(verbose_name="Image:", upload_to="logos/")
+
+    def __str__(self) -> str:
+        return self.nombre
