@@ -1,7 +1,8 @@
 import re
 from django import forms
 from django.forms import ValidationError
-
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 # class ContactoForm(forms.Form):
 #     nombre = forms.CharField(label="Nombre:", max_length=20, required=False)
@@ -90,3 +91,9 @@ class ContactoForm(forms.Form):
             msg = "No le brindamos información a Homeros."
             self.add_error('nombre', msg)
             raise ValidationError(msg)
+        
+class RegistrarUsuarioForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'password1', 'password2']
+

@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.index, name="indice"),
@@ -23,4 +24,8 @@ urlpatterns = [
     path('proyectos/', views.proyectos, name="proyectos"),
     path('json_proyectos/', views.json_proyectos, name="json_proyectos"),
     path('quienes_somos/', views.quienes_somos, name="quienes_somos"),
+    path('cuentas/registrarse', views.cac_registrarse, name='registrarse'),
+    path('cuentas/login', views.cac_login, name='login'),
+     path('cuentas/logout/',
+         auth_views.LogoutView.as_view(template_name='portal/index.html'), name='logout'),
 ]

@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load static %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> {% block titulo %}Inicio CAC{% endblock titulo %} </title>
+    <title>{% block titulo %}Inicio CAC{% endblock titulo %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+
     <script src="https://kit.fontawesome.com/3682b977b2.js" crossorigin="anonymous"></script>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static "portal/css/style.css" %}">
-    {% block extra_css %}{% endblock extra_css %}
+
+    
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/cac/publica/css/style.css'%}?v={% now 'U' %}">    
+
+    {% block css %}{% endblock css %}
 </head>
 <body>
     <header>
@@ -26,49 +31,50 @@
             <!-- comentario html -->
             <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample08">
                 <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-                    <img src="{% static "portal/img/logo_CAC.png" %}" class="logo-codo" alt="">
+                    <img src="{% static '/img/logocodoacodo.png'%}" alt="">
                 </a>
                 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="{% url 'indice' %}" class="nav-link px-2 link-secondary">Inicio</a></li>
-                    <li><a href="{% url 'cursos' 2003 %}" class="nav-link px-2 link-dark">Cursos y Carreras</a></li>
+                    <li><a href="{% url 'inicio' %}" class="nav-link px-2 link-secondary">Inicio</a></li>
+                    <li><a href="{% url 'cursos' %}" class="nav-link px-2 link-dark">Cursos y Carreras</a></li>
                     <li><a href="{% url 'proyectos' %}" class="nav-link px-2 link-dark">Proyectos</a></li>
                     <li><a href="{% url 'quienes_somos' %}" class="nav-link px-2 link-dark">Nosotros</a></li>
-                    {% if perms.administracion %}
-                    <li><a href="{% url 'inicio_administracion' %}" class="nav-link px-2 link-dark">Administración</a></li>
+                    {% if perms.cac %}
+                        <li><a href="{% url 'inicio_administracion' %}" class="nav-link px-2 link-dark">Administración</a></li>
                     {% endif %}
                 </ul>
-                
                 <div class="col-md-3 text-end">
-                    {% if user.is_authenticated %}
-                        {% comment %} <p>Bienvenido\a, {{ user.username }}.</p> {% endcomment %}
-                        <p type="text" style="display: inline" class="">Bienvenido\a, {{ user.username }}.</p>
-                        <a type="button" href="{% url 'logout' %}" class="btn btn-outline-primary me-2">Cerrar Sesión</a>
-                    {% else %}
-                        <a type="button" href="{% url 'login' %}" class="btn btn-outline-primary me-2">Iniciar Sesión</a>
-                        <a type="button" href="{% url 'registrarse' %}" class="btn btn-dark">Registrarse</a>
-                    {% endif %}
+                {% if user.is_authenticated %}
+                    {% comment %} <p>Bienvenido\a, {{ user.username }}.</p> {% endcomment %}
+                    <p type="text" style="display: inline" class="">Bienvenido\a, {{ user.username }}.</p>
+                    <a type="button" href="{% url 'logout' %}" class="btn btn-outline-primary me-2">Cerrar Sesión</a>
+                {% else %}
+                    <a type="button" href="{% url 'login' %}" class="btn btn-outline-primary me-2">Iniciar Sesión</a>
+                    <a type="button" href="{% url 'registrarse' %}" class="btn btn-dark">Registrarse</a>
+                {% endif %}
                 </div>
-                {% comment %}                 
-                <div class="col-md-3 text-end">
-                    <a type="button" href="" class="btn btn-outline-primary me-2">Iniciar Sesión</a>
-                    <a type="button" href="" class="btn btn-dark">Registrarse</a>
-                </div> {% endcomment %}
             </div>
             </div>
         </nav>
+        
     </header>
     <main class="flex-shrink-0">
-        {% block contenido_principal %}
-
-
-
-        {% endblock contenido_principal %}
-    </main>    
+        {% block messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                {{message}}
+            </div>
+            {% endfor %}
+        {% endblock messages%}
+        {% block contenido %}
+        {% endblock contenido %}
+        
+    </main>
     
-    {% include 'portal/footer.html' %}
+    {% include "./footer.html" %}
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-    crossorigin="anonymous"></script>  
-    {% block extra_js %}{% endblock extra_js %}
+    crossorigin="anonymous"></script>
+    {% block javascript %}{% endblock javascript %}
 </body>
 </html>

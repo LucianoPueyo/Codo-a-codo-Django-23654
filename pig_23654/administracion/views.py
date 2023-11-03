@@ -1,4 +1,5 @@
 from typing import Any
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpRequest, HttpResponse
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView
@@ -8,6 +9,7 @@ from administracion.models import Categoria, Curso, Comision, Inscripcion, Proye
 from administracion.forms import CategoriaForm, CursoForm, ComisionForm, InscripcionForm, ProyectoForm, EstudianteForm, DocenteForm
 
 # Create your views here.
+@login_required(login_url="login")
 def index_administracion(request):
     variable = 'No inspirarse en este proyecto ;)'
     return render(request, 'administracion/index.html', {'variable': variable})

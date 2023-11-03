@@ -4,12 +4,41 @@ from django.core.mail import send_mail
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.template import loader
 from datetime import datetime
-from django.shortcuts import render
-from portal.forms import ContactoForm
+from django.shortcuts import render, redirect
+from portal.forms import ContactoForm, RegistrarUsuarioForm
 from administracion.models import Lenguaje
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
+def cac_login(request):
+    if request.method == 'POST':
+        # AuthenticationForm_can_also_be_used__
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            form = login(request, user)
+            messages.success(request, f' Bienvenido/a {username} !!')
+            return redirect('indice')
+        else:
+            messages.error(request, f'Cuenta o password incorrecto, realice el login correctamente')
+    form = AuthenticationForm()
+    return render(request, 'portal/login.html', {'form': form, 'title': 'Log in'})
 
+def cac_registrarse(request):
+    if request.method == 'POST':
+        form = RegistrarUsuarioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
+            messages.success(
+                request, f'Tu cuenta fue creada con éxito! Ya te podes loguear en el sistema.')
+            return redirect('login')
+    else:
+        form = RegistrarUsuarioForm()
+    return render(request, 'portal/registrarse.html', {'form': form, 'title': 'registrese aquí'})
 
 def index(request):
     # mi_template = loader.get_template("index.html")
