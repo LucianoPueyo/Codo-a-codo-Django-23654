@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.urls import reverse_lazy
 from administracion.models import Categoria, Curso, Comision, Inscripcion, Proyecto, Estudiante, Docente
 from administracion.forms import CategoriaForm, CursoForm, ComisionForm, InscripcionForm, ProyectoForm, EstudianteForm, DocenteForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 @login_required(login_url="login")
@@ -109,7 +110,7 @@ def cursos_eliminar(request, id_curso):
     IMPLEMENTACION DE CRUD DE CATEGORIA POR MEDIO DE VISTAS BASADAS EN CLASES (VBC)
 """
 
-class CategoriaListView(ListView):
+class CategoriaListView(LoginRequiredMixin, ListView):
     model = Categoria
     context_object_name = 'categorias'
     template_name = 'administracion/categorias/index.html'

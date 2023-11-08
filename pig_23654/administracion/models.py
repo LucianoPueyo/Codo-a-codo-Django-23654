@@ -4,9 +4,14 @@ from django.db.models.query import QuerySet
 from django.urls import reverse_lazy
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
-# Solución con Herencia de Múltiples tablas
+# Recomendado apenas se empieza a usar auth
+# class PIGUser(AbstractUser):
+#     pass
+
+
 class Persona(models.Model):
     nombre = models.CharField(max_length=100, verbose_name='Nombre')
     apellido = models.CharField(max_length=150, verbose_name='Apellido')

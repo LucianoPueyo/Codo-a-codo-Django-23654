@@ -9,37 +9,11 @@ from portal.forms import ContactoForm, RegistrarUsuarioForm
 from administracion.models import Lenguaje
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import LogoutView
 
 # Create your views here.
-def cac_login(request):
-    if request.method == 'POST':
-        # AuthenticationForm_can_also_be_used__
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            form = login(request, user)
-            messages.success(request, f' Bienvenido/a {username} !!')
-            return redirect('indice')
-        else:
-            messages.error(request, f'Cuenta o password incorrecto, realice el login correctamente')
-    form = AuthenticationForm()
-    return render(request, 'portal/login.html', {'form': form, 'title': 'Log in'})
 
-def cac_registrarse(request):
-    if request.method == 'POST':
-        form = RegistrarUsuarioForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            email = form.cleaned_data.get('email')
-            messages.success(
-                request, f'Tu cuenta fue creada con éxito! Ya te podes loguear en el sistema.')
-            return redirect('login')
-    else:
-        form = RegistrarUsuarioForm()
-    return render(request, 'portal/registrarse.html', {'form': form, 'title': 'registrese aquí'})
-
+    
 def index(request):
     # mi_template = loader.get_template("index.html")
     # contexto = {"ahora" : datetime.now() }
@@ -146,3 +120,42 @@ def json_proyectos(request,):
 
 def quienes_somos(request):
     return render(request, "portal/quienes_somos.html")
+
+
+def pig_login(request):
+    if request.method == 'POST':
+        # AuthenticationForm_can_also_be_used__
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            form = login(request, user)
+            messages.success(request, f' Bienvenido/a {username} !!')
+            return redirect('indice')
+        else:
+            messages.error(request, f'Cuenta o password incorrecto, realice el login correctamente')
+    form = AuthenticationForm()
+    return render(request, 'portal/login.html', {'form': form, 'title': 'Log in'})
+
+def pig_registrarse(request):
+    if request.method == 'POST':
+        form = RegistrarUsuarioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # username = form.cleaned_data.get('username')
+            # email = form.cleaned_data.get('email')
+            messages.success(
+                request, f'Tu cuenta fue creada con éxito! Ya te podes loguear en el sistema.')
+            return redirect('login')
+    else:
+        form = RegistrarUsuarioForm()
+    return render(request, 'portal/registrarse.html', {'form': form, 'title': 'registrese aquí'})
+
+
+class PigLogoutView(LogoutView):
+    # next_page = 'inicio'
+
+    def dispatch(self, request, *args, **kwargs):
+        response = super().dispatch(request, *args, **kwargs)
+        messages.add_message(request, messages.INFO, 'Se ha cerrado la session correctamente.')
+        return response

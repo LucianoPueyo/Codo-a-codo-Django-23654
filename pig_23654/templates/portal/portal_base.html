@@ -3,6 +3,7 @@
 <head>
     {% load static %}
     <meta charset="UTF-8">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> {% block titulo %}Inicio CAC{% endblock titulo %} </title>
@@ -38,10 +39,11 @@
                     {% endif %}
                 </ul>
                 
-                <div class="col-md-3 text-end">
+                <div class="col-md-5 text-end">
                     {% if user.is_authenticated %}
                         {% comment %} <p>Bienvenido\a, {{ user.username }}.</p> {% endcomment %}
                         <p type="text" style="display: inline" class="">Bienvenido\a, {{ user.username }}.</p>
+                        <a type="button" href="{% url 'password_change' %}" class="btn btn-primary me-2"><i class="fa fa-cogs" aria-hidden="true"></i></a>
                         <a type="button" href="{% url 'logout' %}" class="btn btn-outline-primary me-2">Cerrar Sesión</a>
                     {% else %}
                         <a type="button" href="{% url 'login' %}" class="btn btn-outline-primary me-2">Iniciar Sesión</a>

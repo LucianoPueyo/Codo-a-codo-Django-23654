@@ -155,3 +155,8 @@ RECIPIENT_ADDRESS = ""
 LOCALE_PATHS = [
     BASE_DIR / "locale",
 ]
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = "indice"
+# LOGOUT_REDIRECT_URL = "indice"
+# AUTH_USER_MODEL = 'administracion.PIGUser'
