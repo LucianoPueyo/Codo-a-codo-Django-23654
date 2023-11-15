@@ -1,8 +1,7 @@
-"""
-URL configuration for pig_23654 project.
+"""pig_presentacion_api URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
+    https://docs.djangoproject.com/en/3.2/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -14,18 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path, include
-from django.conf.urls.static import static
-from django.conf import settings
 from django.contrib import admin
-from administracion.admin import sitio_admin
+from django.urls import path
+from django.urls.conf import include
+from cac.admin import mi_admin
+from cac_api import urls as api_urls
 
 urlpatterns = [
-    path('', include("portal.urls")),
-    path('administracion/', include("administracion.urls")),
-    # Estan ambos admin para mostrar ejemplos de ambas formas de utilización
-    path('codo_admin/', sitio_admin.urls),
+    path('cac_api/', include(api_urls)),
+    path('cacadmin/', mi_admin.urls),
     path('admin/', admin.site.urls),
-    path('api/', include('pig_api.urls'))
-
-]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('', include('cac.urls'))
+]

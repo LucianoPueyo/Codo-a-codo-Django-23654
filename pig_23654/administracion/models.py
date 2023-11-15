@@ -95,11 +95,11 @@ class Categoria(models.Model):
         self.baja = False
         super().save()
 
-    def save(self):
-        if  "django" in self.nombre.lower():
-            raise ValueError("QUE HACES?? NO PUEDE HABER MAS DJANGO")
-        else:
-            return super().save()
+    # def save(self):
+    #     if  "django" in self.nombre.lower():
+    #         raise ValueError("QUE HACES?? NO PUEDE HABER MAS DJANGO")
+    #     else:
+    #         return super().save()
 
     # def delete(self):
     #     self.soft_delete()
