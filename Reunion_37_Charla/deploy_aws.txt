@@ -1,0 +1,26 @@
+1 - Crear instancia en free tier, usando el grupo de seguridad nginx-django-app-servers y asignarle una elastic-ip (crearla si no hay libre)
+2 - En la instancia instalar la versión de python a utilizar (python 3.8.10), git (ya deberia estar instalado), supervisor (ya tienen que estar instalado para manejar servicios), nginx:
+Versión de ubuntu instalada: ubuntu 22.04.2
+ - Python 3.8:
+	--sudo add-apt-repository ppa:deadsnakes/ppa -y
+	--sudo apt update
+	--sudo apt install python3.8
+	--sudo apt install python3.8-venv
+	referencia alternativas y ejecución: https://linux.how2shout.com/install-python-3-9-or-3-8-on-ubuntu-22-04-lts-jammy-jellyfish/
+ - sudo apt install supervisor
+ - sudo apt install nginx
+  
+ 3 - Descargar código de hal (crear ssh-key en caso de no tener y agregar a bitbucket)
+ 4 - Generar venv para hal e instalar requirements.txt y gunicorn (pip install gunicorn)
+ 5 - Crear base de datos del ambiente donde corresponde (en desarrollo hal_dev)
+ 6 - Generar a la altura del proyecto un archivo .env con las configuraciones del ambiente
+ 7 - Se puede probar que gunicorn levanta igual que el server local con:  gunicorn --bind 0.0.0.0:8000 hal.wsgi
+  
+  Toda la configuración: https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-22-04
+  
+ 8 - Configurar SSL, en ambientes de desarrollo puede ser certbot. Tutorial completo: https://realpython.com/django-nginx-gunicorn/#serving-static-files-directly-with-nginx
+	* Pasos a seguir:
+		$ sudo snap install --classic certbot
+		$ sudo ln -s /snap/bin/certbot /usr/bin/certbot
+		$ sudo certbot --nginx
+ 
